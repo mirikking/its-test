@@ -1,5 +1,5 @@
 <template>
-  <TestMain></TestMain>
+  <Goods></Goods>
 </template>
 
 <script>

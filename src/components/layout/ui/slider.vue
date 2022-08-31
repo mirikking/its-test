@@ -53,6 +53,9 @@ export default {
             } else {
                 document.querySelector('.switcher-left').style.visibility = 'hidden';
             }
+            if (this.currentSlide != 5) {
+                document.querySelector('.switcher-right').style.visibility = 'visible';
+            } 
         },
         slideRight(event) {
             if (this.currentSlide < 5) {
@@ -63,6 +66,9 @@ export default {
             document.querySelectorAll('.slider-state-dots')[this.currentSlide-1].style.opacity = 0.3;
             if (this.currentSlide > 0) {
                 document.querySelector('.switcher-left').style.visibility = 'visible';
+            }
+            if (this.currentSlide == 5) {
+                document.querySelector('.switcher-right').style.visibility = 'hidden';
             }
         }
     },
