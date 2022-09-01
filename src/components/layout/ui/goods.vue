@@ -36,23 +36,26 @@
     </div>
     <div class="goods-content">
         <div class="goods-header">
-            <h1 class="goods-count">412 ТОВАРОВ</h1>
+            <h1 class="goods-count">{{ productArray.length }} Товаров</h1>
             <div class="sort">
-                <div class="sort-ct" @click="sorter">
+                <div class="sort-ct" @click="openSort">
                     <h1 class="sort-by">Сначала дорогие</h1>
                     <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 4.5L7.4641 0L0.535898 0L4 4.5Z" fill="#202020"/>
                     </svg>
                 </div>
             </div>
-            <div class="sort-target" v-if="this.isSortOpenned">
+            <div class="sort-target" v-if="this.isSortOpenned" @click="closeSort">
                 <ul class="sort-content">
-                    <li data-sort-by="highest">Сначала дорогие</li>
+                    <li data-sort-by="highest" @click="sortByHighest">Сначала дорогие</li>
                     <li data-sort-by="lowest">Сначала дешевые</li>
                     <li data-sort-by="popular">Сначала популярные</li>
                     <li data-sort-by="newest">Сначала новые</li>
                 </ul>
             </div>
+        </div>
+        <div class="goods-items">
+            <GoodItem v-for="product in productArray" :key="product.id" :product="product"></GoodItem>
         </div>
     </div>
   </section>
@@ -64,6 +67,7 @@ export default {
     data() {
         return {
             isSortOpenned: false,
+            productArray: [],
         }
     },
     methods: {
@@ -92,20 +96,38 @@ export default {
                 }
             }
         },
-        sorter(event) {
+        openSort(event) {
             if (this.isSortOpenned == false) {
                 this.isSortOpenned = true;
             } else {
                 this.isSortOpenned = false;
             }
+        },
+        closeSort(event) {
+           if (event.target.classList.contains('sort-target')) {
+                this.isSortOpenned = false;
+           }
+        },
+        sortByHighest(event) {
+            const comparePrice = (a, b) => {
+                if (a.price < b.price) return 1;
+                if (a.price == b.price) return 0;
+                if (a.price > b.price) return -1;
+            }
+            this.productArray = this.productArray.sort(comparePrice);
+            this.isSortOpenned = false;
         }
-
+    },
+    mounted() {
+        fetch('https://630aa526f280658a59d0e2de.mockapi.io/api/goods/goods').then(response => response.json()).then(items => {
+            this.productArray = items;
+        })
     }
 } 
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500&display=swap');
 
     * {
         margin: 0;
@@ -178,6 +200,7 @@ export default {
         width: 80%;
         padding-right: 5%;
         display: flex;
+        flex-direction: column;
     }
     
     .goods-header {
@@ -225,6 +248,7 @@ export default {
         z-index: 999;
         background-color: #00000077; 
     }
+    
     .sort-content {
         box-sizing: border-box;
         position: absolute;
@@ -259,9 +283,12 @@ export default {
         background-color: #7BB899;
     }
 
-    .sort-content > li:hover:not(:first-child) > li:first-child { 
-        background-color: white;
+    .goods-items {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        width: 100%;
+        height: 100%;
+        gap: 1rem;
     }
-
 
 </style>
