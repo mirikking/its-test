@@ -47,10 +47,10 @@
             </div>
             <div class="sort-target" v-if="this.isSortOpenned" @click="closeSort">
                 <ul class="sort-content">
-                    <li data-sort-by="highest" @click="sortByHighest">Сначала дорогие</li>
-                    <li data-sort-by="lowest">Сначала дешевые</li>
-                    <li data-sort-by="popular">Сначала популярные</li>
-                    <li data-sort-by="newest">Сначала новые</li>
+                    <li @click="sortByHighest">Сначала дорогие</li>
+                    <li @click="sortBylowest">Сначала дешевые</li>
+                    <li @click="sortBylowest">Сначала популярные</li>
+                    <li @click="sortByNewest">Сначала новые</li>
                 </ul>
             </div>
         </div>
@@ -68,6 +68,7 @@ export default {
         return {
             isSortOpenned: false,
             productArray: [],
+            bustArray: [],
         }
     },
     methods: {
@@ -95,6 +96,26 @@ export default {
                     }
                 }
             }
+            if (event.target.closest('.switch').classList.contains('active')) {
+                let currentSorted = event.target.closest('.switch').dataset.type;
+                if (currentSorted == 'latest') { 
+                    this.productArray = this.bustArray.filter(el => el.latest == true);
+                };
+                if (currentSorted == 'inStock') {
+                    this.productArray = this.bustArray.filter(el => el.inStock == true);
+                };
+                if (currentSorted == 'isForContract') {
+                    this.productArray = this.bustArray.filter(el => el.isForContract == true);
+                };
+                if (currentSorted == 'exclusive') {
+                    this.productArray = this.bustArray.filter(el => el.exclusive == true);
+                };
+                if (currentSorted == 'isDiscounted') {
+                    this.productArray = this.bustArray.filter(el => el.isDiscounted == true);
+                };
+            } else {
+                this.productArray = this.bustArray;
+            }
         },
         openSort(event) {
             if (this.isSortOpenned == false) {
@@ -116,11 +137,30 @@ export default {
             }
             this.productArray = this.productArray.sort(comparePrice);
             this.isSortOpenned = false;
+        },
+        sortBylowest(event) {
+            const comparePrice = (a, b) => {
+                if (a.price > b.price) return 1;
+                if (a.price == b.price) return 0;
+                if (a.price < b.price) return -1;
+            }
+            this.productArray = this.productArray.sort(comparePrice);
+            this.isSortOpenned = false;
+        },
+        sortByNewest(event) {
+            const compareDate = (a, b) => {
+                if (a.createdAt < b.createdAt) return 1;
+                if (a.createdAt == b.createdAt) return 0;
+                if (a.createdAt > b.createdAt) return -1;
+            }
+            this.productArray = this.productArray.sort(compareDate);
+            this.isSortOpenned = false;
         }
     },
     mounted() {
         fetch('https://630aa526f280658a59d0e2de.mockapi.io/api/goods/goods').then(response => response.json()).then(items => {
             this.productArray = items;
+            this.bustArray = items;
         })
     }
 } 
@@ -243,7 +283,7 @@ export default {
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 180%;
         position: absolute;
         z-index: 999;
         background-color: #00000077; 
@@ -258,8 +298,8 @@ export default {
         color: white;
         width: 18rem;
         height: 198px;
-        right: 3%;
-        top: 2%;
+        right: 2%;
+        top: 36%;
         background-color: white;
         color: black;
         font-weight: 500;

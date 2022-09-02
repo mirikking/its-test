@@ -1,6 +1,7 @@
 <template>
     <main class="layout-main">
         <TestSlider></TestSlider>
+        <Goods></Goods>
     </main>
 </template>
 

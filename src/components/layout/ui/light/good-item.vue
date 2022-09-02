@@ -5,19 +5,26 @@
             <p class="product-title">{{ product.name }}</p>
             <div class="product-view">
                 <h5 class="product-price">{{ product.price }} ₽</h5>
-                <button class="product-purchase">+</button>
+                <button class="product-purchase" @click="addProduct">+</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { brct } from '@/stores/counter'
+
 export default {
     name: 'GoodItem',
     props: {
         product: {
             type: Object,
             required: true,
+        }
+    },
+    methods: {
+        addProduct(event) {
+            brct().products.push(this.product)
         }
     }
 }

@@ -38,16 +38,22 @@
       </svg>
     </div>
     <div class="user-cntn">
-      <div class="user-cntn-circle"><p>4</p></div>
+      <div class="user-cntn-circle"><p> {{ this.productsCount }} </p></div>
     </div>
   </div>
 </header>
 </template>
 
 <script>
+import { brct } from '@/stores/counter';
+
 export default {
   name: "TestHeader",
-
+  data() {
+    return {
+      productsCount: 0
+    }
+  }, 
 }
 </script>
 

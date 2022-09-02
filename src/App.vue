@@ -1,5 +1,5 @@
 <template>
-  <Goods></Goods>
+  <layout></layout>
 </template>
 
 <script>
@@ -7,8 +7,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
-
+  body {
+    padding: 0;
+    margin: 0;
+  }
 
 </style>
