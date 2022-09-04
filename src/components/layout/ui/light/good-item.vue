@@ -91,4 +91,23 @@ export default {
         font-size: 16px;
     }
 
+    @media (max-width: 540px) {
+        .product-card {
+            width: 155px;
+        }
+    }
+
+    @media (max-width: 1502px) {
+        .product-card .product-purchase {
+            opacity: 1;
+        }
+
+        .product-purchase {
+            width: 40px;
+            height: 32px;
+            background-color: #F2F2F2;
+            border-radius: 6px;
+        }
+    } 
+
 </style>

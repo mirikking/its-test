@@ -188,4 +188,20 @@ export default {
         border-radius: 50%;
     }
 
+    @media (max-width: 1000px) {
+        .slider {
+            background-image: none;
+            height: 5rem
+        }
+        .switcher-left,
+        .slider-content,
+        .switcher-right {
+            display: none;
+        }
+
+        .catalog-path {
+            color: #1F2020;
+        }
+    } 
+
 </style>
